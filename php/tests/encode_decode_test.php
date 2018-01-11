@@ -522,4 +522,32 @@ class EncodeDecodeTest extends TestBase
         $to->mergeFromJsonString($data);
         $this->expectFields($to);
     }
+
+    /** @dataProvider provideJsonEncodeEscaping **/
+    public function testJsonEncodeEscaping($string)
+    {
+        $from = new TestMessage();
+        $from->setOptionalString($string);
+        $data = $from->serializeToJsonString();
+        $to = new TestMessage();
+        $to->mergeFromJsonString($data);
+        $this->assertEquals(
+            $from->getOptionalString(),
+            $to->getOptionalString()
+        );
+        $this->assertContains(json_encode($string), $data);
+    }
+
+    public function provideJsonEncodeEscaping()
+    {
+        return [
+            ['escape/forward/slashes'],
+            ['escape\\back\\slashes'],
+            ["escape\nnewlines"],
+            ['escape "double" quotes'],
+            ['escape \'single\' quotes'],
+            ['escape {curly} braces'],
+            ['escape [square] brackets'],
+        ];
+    }
 }
