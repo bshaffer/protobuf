@@ -552,7 +552,6 @@ class GPBUtil
                is_a($msg, "Google\Protobuf\Value")       ||
                is_a($msg, "Google\Protobuf\Duration")    ||
                is_a($msg, "Google\Protobuf\Timestamp")   ||
-               is_a($msg, "Google\Protobuf\FieldMask")   ||
                static::hasJsonValue($msg);
     }
 
